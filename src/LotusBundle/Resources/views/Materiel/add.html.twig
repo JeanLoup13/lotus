@@ -1,0 +1,5 @@
+{% extends "LotusBundle::layout.html.twig" %}
+{% block title %}{{parent() }} Ajout d'un nouveau matériel{% endblock %}
+{% block body %}
+    {{ include("LotusBundle:Materiel:form.html.twig") }}
+{% endblock %}

@@ -1,0 +1,48 @@
+{# src/Kocliko/ComptaBundle/Resources/views/Comptability/list.html.twig #}
+{% extends "LotusBundle::layout.html.twig" %}
+{% block title %}{{ parent() }} Liste du Matériel {% endblock %}
+{% block body %}
+    <h3>Liste du Matériel</h3>
+    <form id="form_filter" action="{{ path('lotus_materiel_list') }}" method="post" style="padding:16px 16px 32px 16px; background-color:#EEE;">
+        {{ form_start(form, {'attr': {'class' : 'form-horizontal'}}) }}
+        <div class="form-group">
+            <div class="col-sm-3">{{form_widget(form.getMaterielFamille())}}</div>
+            <div class="col-sm-3">{{form_widget(form.getMarque())}}</div>
+            <div class="col-sm-3">{{ form_rest(form) }}</div>
+        </div>
+        {{ form_end(form) }}
+    </form>    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col"><i class="glyphicon glyphicon-tag" aria-hidden="true"></i> Libelle</th>
+                <th scope="col"><i class="glyphicon glyphicon-tag" aria-hidden="true"></i> Code Fournisseur</th>
+                <th scope="col"><i class="glyphicon glyphicon-tag" aria-hidden="true"></i> Ean</th>
+                <th scope="col"><i class="glyphicon glyphicon-tag" aria-hidden="true"></i> Marque</th>
+                <th scope="col"><i class="fa fa-cogs" aria-hidden="true"></i> Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for materiel in listMateriels %}
+            <tr> 
+                <td>{{ materiel.libelle}}</td>
+                <td>{{ materiel.codeFournisseur}}</td>
+                <td>{{ materiel.CodeEan}}</td>
+                <td>{{ materiel.getMarque().libelle }}</td>
+                <td>
+                    <a href="{{path('lotus_materiel_edit',{'id':materiel.id})}}" class="btn btn-primary">
+                        Modifier
+                    </a>
+                </td>
+            </tr>
+    {% endfor %}
+            <tr>
+                <td colspan=4>
+                    <nav aria-label="...">
+                        <a href="{{path('lotus_materiel_add')}}" class="btn btn-success">Ajouter un type de matériel</a>
+                    </nav>
+                </td>
+            </tr>
+        </tbody>
+    </table>   
+{% endblock %}

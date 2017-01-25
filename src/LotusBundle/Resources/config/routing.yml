@@ -1,0 +1,105 @@
+
+lotus_materiel_list:    
+    path:   /materiel
+    defaults:
+        _controller: LotusBundle:Materiel:list       
+
+lotus_materiel_add:    
+    path:   /materiel/add
+    defaults:
+        _controller: LotusBundle:Materiel:add
+
+lotus_materiel_edit:
+    path:   /materiel/edit/{id}
+    defaults:
+        _controller: LotusBundle:Materiel:edit
+    requirements:
+        id: \d*
+
+
+lotus_materielfamille_list:    
+    path:   /materielfamille
+    defaults:
+        _controller: LotusBundle:MaterielFamille:list       
+
+lotus_materielfamille_add:    
+    path:   /materielfamille/add
+    defaults:
+        _controller: LotusBundle:MaterielFamille:add
+
+lotus_materielfamille_edit:
+    path:   /materielfamille/edit/{id}
+    defaults:
+        _controller: LotusBundle:MaterielFamille:edit
+    requirements:
+        id: \d*
+
+
+lotus_materielfamillecaracteristique_list:    
+    path:   /materielfamillecaracteristique
+    defaults:
+        _controller: LotusBundle:MaterielFamilleCaracteristique:list       
+
+lotus_materielfamillecaracteristique_add:    
+    path:   /materielfamillecaracteristique/add
+    defaults:
+        _controller: LotusBundle:MaterielFamilleCaracteristique:add
+
+lotus_materielfamillecaracteristique_edit:
+    path:   /materielfamillecaracteristique/edit/{id}
+    defaults:
+        _controller: LotusBundle:MaterielFamilleCaracteristique:edit
+    requirements:
+        id: \d*
+
+
+lotus_materielcaracteristique_list:    
+    path:   /materielcaracteristique
+    defaults:
+        _controller: LotusBundle:MaterielCaracteristique:list       
+
+lotus_materielcaracteristique_add:    
+    path:   /materielcaracteristique/add
+    defaults:
+        _controller: LotusBundle:MaterielCaracteristique:add
+
+lotus_materielcaracteristique_edit:
+    path:   /materielcaracteristique/edit/{id}
+    defaults:
+        _controller: LotusBundle:MaterielCaracteristique:edit
+    requirements:
+        id: \d*
+        
+
+lotus_client_list:    
+    path:   /client
+    defaults:
+        _controller: LotusBundle:Client:list       
+
+lotus_client_add:    
+    path:   /client/add
+    defaults:
+        _controller: LotusBundle:Client:add
+
+lotus_client_edit:
+    path:   /client/{id}
+    defaults:
+        _controller: LotusBundle:Client:edit
+    requirements:
+        id: \d*
+
+
+lotus_marque_list:    
+    path:   /marque
+    defaults:
+        _controller: LotusBundle:marque:list       
+lotus_marque_add:    
+    path:   /marque/add
+    defaults:
+        _controller: LotusBundle:marque:add
+lotus_marque_edit:
+    path:   /marque/edit/{id}
+    defaults:
+        _controller: LotusBundle:marque:edit
+    requirements:
+        id: \d*

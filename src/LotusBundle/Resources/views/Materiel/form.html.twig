@@ -1,0 +1,57 @@
+<div style="padding:36px; background-color:#EEE;">
+{{ form_start(form, {'attr': {'class' : 'form-horizontal'}}) }}
+{{ form_errors(form) }}
+    <div class="form-group">
+        {{ form_label(
+            form.marque,
+            'Marque',
+            {'label_attr':{'class':'col-sm-1 control-label'}}
+        ) }}
+        <div class="col-sm-5">
+            {{form_errors(form.marque)}}
+            {{form_widget(form.marque)}}
+        </div>
+        {{ form_label(
+            form.libelle,
+            'Désignation',
+            {'label_attr':{'class':'col-sm-1 control-label'}}
+        ) }}
+        <div class="col-sm-5">
+            {{form_errors(form.libelle)}}
+            {{form_widget(form.libelle, {'attr':{'class':'form-control'}})}}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form_label(
+            form.codeEan,
+            'Code Barre',
+            {'label_attr':{'class':'col-sm-1 control-label'}}
+        ) }}
+        <div class="col-sm-5">
+            {{form_errors(form.codeEan)}}
+            {{form_widget(form.codeEan, {'attr':{'class':'form-control'}})}}
+        </div>
+        {{ form_label(
+            form.codeFournisseur,
+            'Fournisseur',
+            {'label_attr':{'class':'col-sm-1 control-label'}}
+        ) }}
+        <div class="col-sm-5">
+            {{form_errors(form.codeFournisseur)}}
+            {{form_widget(form.codeFournisseur, {'attr':{'class':'form-control'}})}}
+        </div>
+       
+    </div>
+   
+   
+{# Tous les champs cachés de type hidden #}
+    <hr>
+    {{ form_rest(form) }}
+</div>
+    <nav>
+        <ul class="pager">
+            <li><a href="{{path('lotus_materiel_add')}}">Ajouter un nouveau matériel</a></li>
+            <li><a href="{{path('lotus_materiel_list')}}">Sommaire</a></li>
+        </ul>
+    </nav>
+{{ form_end(form) }}

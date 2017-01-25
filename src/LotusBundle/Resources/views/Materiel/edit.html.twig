@@ -1,0 +1,11 @@
+{# src/ADC/LotusBundle/Resources/views/materiel/add.html.twig #}
+{% extends "LotusBundle::layout.html.twig" %}
+{% block title %}{{parent() }} Edition d'un type de Matériel{% endblock %}
+{% block body %}
+    
+    <h3>Edition d'un matériel</h3>
+    
+    {# Formulaire #}
+        {{ include("LotusBundle:Materiel:form.html.twig") }}
+    
+{% endblock %}
