@@ -57,10 +57,18 @@ doctrine:
         #   3. Uncomment next line:
         #     path:     "%database_path%"
 
+   # only orm config branch of doctrine
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        mappings:
+            gedmo_tree:
+                type: annotation
+                prefix: Gedmo\Tree\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                is_bundle: false
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -69,3 +77,25 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+    
+assetic :
+    debug:          "%kernel.debug%"
+    use_controller: "%kernel.debug%"
+    filters:
+        cssrewrite: ~
+
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            tree: true
+            
+comur_image:
+    config:
+        cropped_image_dir: 'cropped'
+        thumbs_dir: 'thumbnails'
+        media_lib_thumb_size: 150
+        web_dirname: 'web'
+        translation_domain: 'ComurImageBundle'
+        gallery_thumb_size: 150
+        gallery_dir: 'gallery'

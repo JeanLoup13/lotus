@@ -1,23 +1,27 @@
 <?php
-// adc/src/LotusBundle/Form/FilterMaterielType
+// adc/src/LotusBundle/Form/MaterielFilterType
 
 namespace LotusBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class FilterMaterielType extends AbstractType
+class MaterielFilterType extends AbstractType
 {
     private $doctrine;
     /** @var \Doctrine\ORM\EntityManager */
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder;
+        $builder
+            ->add('marque', EntityType::class,array('class'=>'LotusBundle:Marque', 'choice_label'=>'title','preferred_choices' => array(null)))
+            ->add('materielFamille', EntityType::class,array('class'=>'LotusBundle:MaterielFamille', 'choice_label'=>'title','preferred_choices' => array(null)))
+            ->add('list', SubmitType::class,array('label' => 'Filtrer','attr'=> array('class' => 'btn btn-default')))
+        ;
     }
     
     /**
@@ -35,8 +39,6 @@ class FilterMaterielType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'lotusbundle_materiel';
+        return 'lotusbundle_materielfilter';
     }
-
-
 }

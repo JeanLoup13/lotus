@@ -13,7 +13,7 @@ class ComptabilityType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('date')->add('title')        ;
+        $builder->add('date')->add('title');
     }
     
     /**

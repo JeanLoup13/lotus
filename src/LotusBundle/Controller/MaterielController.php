@@ -5,15 +5,14 @@ namespace LotusBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use LotusBundle\Entity\Materiel;
-use LotusBundle\Form\MaterielType;
-use LotusBundle\Form\FilterMaterielType;
+use LotusBundle\Form\MaterielAddType;
+use LotusBundle\Form\MaterielEditType;
+use LotusBundle\Form\MaterielFilterType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException ;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MaterielController extends Controller
 {
@@ -21,7 +20,10 @@ class MaterielController extends Controller
     {
         $materiel = new Materiel();
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(MaterielType::class,$materiel);
+        $form = $this->createForm(MaterielAddType::class,$materiel);
+        //$form->add('materielFamille', EntityType::class,array('class'=>'LotusBundle:MaterielFamille', 'choice_label'=>'title'));
+        $form->add('materielFamille', ChoiceType::class, (array('choices' => $em->getRepository('LotusBundle:MaterielFamille')->getFormChoices())));
+        $em->getRepository('LotusBundle:MaterielFamille')->getFormChoices();
         if($request->isMethod('POST') && $form->handleRequest($request)->isSubmitted()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($materiel);
@@ -29,7 +31,9 @@ class MaterielController extends Controller
             $request->getSession()->getFlashBag()->add('notice','Matériel bien enregistré');
             return $this->redirectToRoute('lotus_materiel_edit', array('id'=>$materiel->getId()));
         }
+        //return new Response("ok");
         return $this->render('LotusBundle:Materiel:add.html.twig', array('form'=>$form->createView()));
+        
     }
     public function editAction($id, Request $request)
     {
@@ -39,25 +43,30 @@ class MaterielController extends Controller
             $request->getSession()->getFlashBag()->add('notice',"Matériel n°$id non retrouvé");
             throw new NotFoundHttpException("Matériel $id non retrouvée en bdd");
         }
-        $form = $this->createForm(MaterielType::class,$materiel);
-        $form
-            ->add('duplicate', SubmitType::class, array('label' => 'Dupliquer','attr'=> array('class' => 'btn btn-success')));
+        $form = $this->createForm(MaterielEditType::class,$materiel);
+        $form->add('materielFamille', ChoiceType::class, (array('choices' => $em->getRepository('LotusBundle:MaterielFamille')->getFormChoices())));
         
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             if($form->get('duplicate')->isClicked()) {
                 $new_materiel = clone $materiel;
-                unset($materiel);
+                $em->detach($materiel);
                 $em->persist($new_materiel);
-                $new_materiel->setPartNumber(NULL);
+                $new_materiel->setCodeEan(NULL);
+                $now = new \DateTime();
+                $new_materiel->setCreatedAt($now);
                 $em->flush(); 
                 $request->getSession()->getFlashBag()->add('notice','Matériel dupliquée');
                 return $this->redirectToRoute( 'lotus_materiel_edit', array('id'=>$new_materiel->getId()));
             }
-            else {
-                $materiel->getLastDatePayment();
-                $em->persist($materiel);
-                $em->flush(); 
-                $request->getSession()->getFlashBag()->add('notice','Modification du Matériel bien enregistrée');
+            else { 
+                
+                try {
+                    $em->persist($materiel); 
+                    $em->flush();  
+                    $request->getSession()->getFlashBag()->add('notice','Modification du Matériel bien enregistrée');
+                 } catch (Exception $e) {
+                     $request->getSession()->getFlashBag()->add('flash_key',"Add not done: " . $e->getMessage());
+                 }
                 return $this->redirectToRoute( 'lotus_materiel_edit', array('id'=>$materiel->getId()));
             }
             
@@ -67,19 +76,23 @@ class MaterielController extends Controller
     }
     public function listAction(Request $request)
     {
+        
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(FilterMaterielType::class);
-        $form
-            ->add('marque', EntityType::class,array('class'=>'LotusBundle:Marque', 'choice_label'=>'libelle','preferred_choices' => array(null)))
-            ->add('materielFamille', EntityType::class,array('class'=>'LotusBundle:MaterielFamille', 'choice_label'=>'libelle','preferred_choices' => array(null)))
-            ->add('list', SubmitType::class,array('label' => 'Filtrer','attr'=> array('class' => 'btn btn-default')))
-        ;
+        $MaterielFamilleRepo = $em->getRepository('LotusBundle:MaterielFamille');
+        if($MaterielFamilleRepo->verify() == true) echo 'Arbre est valide' ;
+        else  echo 'Arbre pas valide' ;
+        // can return TRUE if tree is valid, or array of errors found on tree
+        //$MaterielFamilleRepo->recover();
+        //$em->flush();
+        $form = $this->createForm(MaterielFilterType::class);
+        $form->handleRequest($request);
         // Listing des Matériels
-        if($request->isMethod('POST')){
-            //$form->handleRequest($request);
-            $data = $request->request->get('lotusbundle_materiel');
+        if($form->isSubmitted() && $form->isValid()) {
+            
+            $data = $form->getData();
+            var_dump($data);
             //$listMateriels =  $em ->getRepository('LotusBundle:Materiel')->findBy(array('client'=>$data['client']),array('dateEdit'=>'desc','partnumber'=>'desc'));
-            $listMateriels = $em->getRepository('LotusBundle:Materiel')->getByMarqueAndFamille($data['materielFamille'], $data['marque']);
+            $listMateriels = $em->getRepository('LotusBundle:Materiel')->getByMarqueAndFamille($data['marque'],$data['materielFamille'],0);
         }
         else {
             $listMateriels = $em->getRepository('LotusBundle:Materiel')->findAll();

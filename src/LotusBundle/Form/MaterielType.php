@@ -23,16 +23,16 @@ class MaterielType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            
             ->add('codeEan', TextType::class)
             ->add('codeFournisseur', TextType::class)
-            ->add('marque', EntityType::class,array('class'=>'LotusBundle:Marque', 'choice_label'=>'libelle','preferred_choices' => array(null)))
-            ->add('materielFamille', EntityType::class,array('class'=>'LotusBundle:MaterielFamille', 'choice_label'=>'libelle','preferred_choices' => array(null)))
+            ->add('marque', EntityType::class,array('class'=>'LotusBundle:Marque', 'choice_label'=>'title','preferred_choices' => array(null)))
+            ->add('image', EntityType::class,array('class'=>'LotusBundle:Image', 'choice_label'=>'alt','preferred_choices' => array(null), 'expanded'=> true))
+            //->add('materielFamille', EntityType::class,array('class'=>'LotusBundle:MaterielFamille', 'choice_label'=>'title','preferred_choices' => array(null)))
             ->add('consommable', CheckboxType::class, array('label'=> 'Consommable','required' => false))
             ->add('outil', CheckboxType::class, array('label'=> 'Outil','required' => false))
-            ->add('libelle', TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Enregister','attr'=> array('class' => 'btn btn-primary pull-right')))
-            ;
+            ->add('title', TextType::class)
+            ->add('active', CheckboxType::class, array('label'=> 'Actif','required' => false))
+            ->add('save', SubmitType::class, array('attr'=> array('class' => 'btn btn-primary')));
     }
     
     /**
@@ -43,6 +43,7 @@ class MaterielType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'LotusBundle\Entity\Materiel'
         ));
+        
     }
 
     /**

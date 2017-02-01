@@ -24,9 +24,9 @@ class MaterielFamilleCaracteristique
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255)
      */
-    private $libelle;
+    private $title;
 
     /**
      * @var int
@@ -47,27 +47,27 @@ class MaterielFamilleCaracteristique
     }
 
     /**
-     * Set libelle
+     * Set title
      *
-     * @param string $libelle
+     * @param string $title
      *
      * @return MaterielFamilleCaracteristique
      */
-    public function setLibelle($libelle)
+    public function setTitle($title)
     {
-        $this->libelle = $libelle;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get libelle
+     * Get title
      *
      * @return string
      */
-    public function getLibelle()
+    public function getTitle()
     {
-        return $this->libelle;
+        return $this->title;
     }
 
     /**

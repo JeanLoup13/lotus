@@ -1,0 +1,23 @@
+{# src/Kocliko/ComptaBundle/Resources/views/Comptability/list.html.twig #}
+{% extends "LotusBundle::layout.html.twig" %}
+{% block title %}{{ parent() }} Liste des Secteurs {% endblock %}
+{% block body %}
+    <h3>Liste des Secteurs</h3>
+    <div class="row" style="background-color:white">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col"><i class="glyphicon glyphicon-tag" aria-hidden="true"></i> ID</th>
+                <th scope="col"><i class="glyphicon glyphicon-tag" aria-hidden="true"></i> Libelle</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for zoneSecteur in listZoneSecteurs %}
+            <tr> 
+                <td>{{ zoneSecteur.id}}</td>
+                <td>{{ zoneSecteur.libelle}}</td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>   
+{% endblock %}

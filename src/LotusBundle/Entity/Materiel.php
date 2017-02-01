@@ -2,6 +2,8 @@
 
 namespace LotusBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="materiel")
  * @ORM\Entity(repositoryClass="LotusBundle\Repository\MaterielRepository")
+ * @ORM\HasLifecycleCallBacks()
  */
 class Materiel
 {
@@ -24,9 +27,9 @@ class Materiel
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255)
      */
-    private $libelle;
+    private $title;
 
     /**
      * @var string
@@ -38,29 +41,19 @@ class Materiel
     /**
      * @var int
      *
-     * @ORM\Column(name="code_ean", type="integer", nullable=true)
+     * @ORM\Column(name="code_ean", type="integer", nullable=true, unique=true)
      */
     private $codeEan;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="marque", type="integer", nullable=true)
-     */
-    /**
-     * @ORM\OneToOne(targetEntity="LotusBundle\Entity\Marque")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="LotusBundle\Entity\Marque")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $marque;
     
     /**
-     * @var int
-     *
-     * @ORM\Column(name="materiel_famille", type="integer", nullable=true)
-     */
-    /**
      * @ORM\ManyToOne(targetEntity="LotusBundle\Entity\MaterielFamille")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $materielFamille;
 
@@ -70,15 +63,50 @@ class Materiel
      * @ORM\Column(name="consommable", type="boolean")
      */
     private $consommable;
-
+    
     /**
      * @var bool
      *
      * @ORM\Column(name="outil", type="boolean")
      */
     private $outil;
+    
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
 
+    /**
+     * @var \DateTime $createdAt
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    private $createdAt;
 
+    /**
+     * @var \DateTime $updatedAt
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+     * @var \DateTime $activeChanged
+     *
+     * @ORM\Column(name="active_changed", type="datetime", nullable=true)
+     */
+    private $activeChanged;
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="LotusBundle\Entity\Image")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $image;
+    
+    
     /**
      * Get id
      *
@@ -90,27 +118,27 @@ class Materiel
     }
 
     /**
-     * Set libelle
+     * Set title
      *
-     * @param string $libelle
+     * @param string $title
      *
      * @return Materiel
      */
-    public function setLibelle($libelle)
+    public function setTitle($title)
     {
-        $this->libelle = $libelle;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get libelle
+     * Get title
      *
      * @return string
      */
-    public function getLibelle()
+    public function getTitle()
     {
-        return $this->libelle;
+        return $this->title;
     }
 
     /**
@@ -185,6 +213,54 @@ class Materiel
     }
 
     /**
+     * Set image
+     *
+     * @param integer $image
+     *
+     * @return Materiel
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return int
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Materiel
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return bool
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+    
+    /**
      * Set consommable
      *
      * @param boolean $consommable
@@ -254,6 +330,62 @@ class Materiel
     public function getMaterielFamille()
     {
         return $this->materielFamille;
+    }
+    
+    /**
+     * Set updatedAt
+     * @param datetime $updatedAt
+     *
+     * @return Materiel
+     */
+    public function setUpdatedAt($dateTime) 
+    {  
+        $this->updatedAt = $dateTime;  
+    }  
+  
+    /** 
+     * Get createdAt 
+     * 
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+    
+    /** 
+     * Set createdAt 
+     *
+     * @param datetime $createdAt
+     *
+     * @return Materiel
+     */  
+    public function setCreatedAt($dateTime) 
+    {  
+        $this->createdAt = $dateTime;  
+    }  
+  
+    /** 
+     * Get createdAt 
+     * 
+     * @return \DateTime 
+     */  
+    public function getCreatedAt()  
+    {  
+        return $this->createdAt;  
+    }
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUpdatedAt(new \DateTime());
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime());
+        }
     }
 }
 

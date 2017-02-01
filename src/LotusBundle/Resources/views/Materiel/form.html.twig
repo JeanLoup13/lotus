@@ -3,23 +3,24 @@
 {{ form_errors(form) }}
     <div class="form-group">
         {{ form_label(
-            form.marque,
-            'Marque',
-            {'label_attr':{'class':'col-sm-1 control-label'}}
-        ) }}
-        <div class="col-sm-5">
-            {{form_errors(form.marque)}}
-            {{form_widget(form.marque)}}
-        </div>
-        {{ form_label(
-            form.libelle,
+            form.title,
             'Désignation',
             {'label_attr':{'class':'col-sm-1 control-label'}}
         ) }}
         <div class="col-sm-5">
-            {{form_errors(form.libelle)}}
-            {{form_widget(form.libelle, {'attr':{'class':'form-control'}})}}
+            {{form_errors(form.title)}}
+            {{form_widget(form.title, {'attr':{'class':'form-control'}})}}
         </div>
+        <div class="col-sm-2 col-sm-push-1">
+            {{ form_widget(form.consommable)}}
+            {{ form_label( form.consommable, 'Consommable', {'label_attr':{'class':'control-label'}} ) }}
+            {{ form_errors(form.consommable)}}
+        </div>
+        <div class="col-sm-2 col-sm-push-1">
+            {{ form_widget(form.outil)}}
+            {{ form_label( form.outil, 'Outil', {'label_attr':{'class':'control-label'}} ) }}
+            {{ form_errors(form.outil)}}
+       </div>
     </div>
     <div class="form-group">
         {{ form_label(
@@ -40,13 +41,42 @@
             {{form_errors(form.codeFournisseur)}}
             {{form_widget(form.codeFournisseur, {'attr':{'class':'form-control'}})}}
         </div>
-       
     </div>
-   
-   
-{# Tous les champs cachés de type hidden #}
-    <hr>
-    {{ form_rest(form) }}
+    <div class="form-group">   
+        {{ form_label(
+            form.materielFamille,
+            'Famille',
+            {'label_attr':{'class':'col-sm-1 control-label'}}
+        ) }}
+        <div class="col-sm-5">
+            {{form_errors(form.materielFamille)}}
+            {{form_widget(form.materielFamille, {'attr':{'class':'form-control'}})}}
+        </div>
+        {{ form_label(
+            form.marque,
+            'Marque',
+            {'label_attr':{'class':'col-sm-1 control-label'}}
+        ) }}
+        <div class="col-sm-5">
+            {{form_errors(form.marque)}}
+            {{form_widget(form.marque, {'attr':{'class':'form-control'}})}}
+        </div>
+    </div>  
+   <div class="form-group">
+        <div class="col-sm-2 col-sm-push-1">
+            <big>{{ form_widget(form.active)}}
+            {{ form_label( form.active, 'Actif', {'label_attr':{'class':'control-label'}} ) }} </big> 
+            {{ form_errors(form.active)}}
+        </div>
+        <div class="col-sm-9">
+            <div class="pull-right">
+                {{ form_widget( form.save, { 'label' : 'Enregistrer' }) }}
+                {% if form.duplicate is defined %} {{ form_widget( form.duplicate, { 'label' : 'Dupliquer' }) }}{% endif %}
+            </div>
+        </div>
+    </div>
+    {{ form_rest(form) }}{# Tous les champs cachés de type hidden #}
+
 </div>
     <nav>
         <ul class="pager">

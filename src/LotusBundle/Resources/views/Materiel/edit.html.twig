@@ -3,7 +3,18 @@
 {% block title %}{{parent() }} Edition d'un type de Matériel{% endblock %}
 {% block body %}
     
-    <h3>Edition d'un matériel</h3>
+    <h3>
+        {% if materiel.active == 1 %}
+           <i class="glyphicon glyphicon-ok-sign  text-success" aria-hidden="true"></i>
+        {% else %}
+            <i class="glyphicon glyphicon-ban-circle  text-warning" aria-hidden="true"></i>
+        {% endif %}
+            
+        Edition d'un matériel 
+        <small class="pull-right"><small>
+            Crée le {{ materiel.createdAt|date('d/m/Y à H:i') }} | <span class="text-info" >MàJ le {{ materiel.updatedAt|date('d/m/Y à H:i') }}</span>
+        </small></small>
+    </h3>
     
     {# Formulaire #}
         {{ include("LotusBundle:Materiel:form.html.twig") }}

@@ -1,4 +1,18 @@
-
+lotus_marque_list:    
+    path:   /marque
+    defaults:
+        _controller: LotusBundle:marque:list       
+lotus_marque_add:    
+    path:   /marque/add
+    defaults:
+        _controller: LotusBundle:marque:add
+lotus_marque_edit:
+    path:   /marque/edit/{id}
+    defaults:
+        _controller: LotusBundle:marque:edit
+    requirements:
+        id: \d*
+        
 lotus_materiel_list:    
     path:   /materiel
     defaults:
@@ -70,36 +84,31 @@ lotus_materielcaracteristique_edit:
     requirements:
         id: \d*
         
-
-lotus_client_list:    
-    path:   /client
+lotus_image_list:    
+    path:   /image
     defaults:
-        _controller: LotusBundle:Client:list       
+        _controller: LotusBundle:Image:list       
 
-lotus_client_add:    
-    path:   /client/add
+lotus_image_add:    
+    path:   /image/add
     defaults:
-        _controller: LotusBundle:Client:add
+        _controller: LotusBundle:Image:add
 
-lotus_client_edit:
-    path:   /client/{id}
+        
+lotus_zone_list:    
+    path:   /zone
     defaults:
-        _controller: LotusBundle:Client:edit
+        #_controller: LotusBundle:Zone:list       
+
+lotus_zone_add:    
+    path:   /zone/add
+    defaults:
+        #_controller: LotusBundle:Zone:add
+
+lotus_zone_edit:
+    path:   /zone/edit/{id}
+    defaults:
+        #_controller: LotusBundle:Zone:edit
     requirements:
-        id: \d*
-
-
-lotus_marque_list:    
-    path:   /marque
-    defaults:
-        _controller: LotusBundle:marque:list       
-lotus_marque_add:    
-    path:   /marque/add
-    defaults:
-        _controller: LotusBundle:marque:add
-lotus_marque_edit:
-    path:   /marque/edit/{id}
-    defaults:
-        _controller: LotusBundle:marque:edit
-    requirements:
-        id: \d*
+        #id: \d*
+        

@@ -10,4 +10,20 @@ namespace LotusBundle\Repository;
  */
 class MaterielRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    public function getByMarqueAndFamille($marque, $materielFamille,$active = 0)
+    {
+        if($marque == false) echo 'marque false' ;
+        if($materielFamille == false) echo 'materielFamille false' ;
+        if($marque == false && $materielFamille == false) return $this->findAll();
+        echo 'filtering' ;
+        $qb = $this->createQueryBuilder("m");
+        $qb->where('m.active=:active')->setParameter('active',$active);
+        if($marque != false ) $qb->andWhere('m.marque=:marque')->setParameter('marque',$marque);
+        if($materielFamille != false) $qb->andWhere("m.materielFamille=:materielFamille")->setParameter('materielFamille',$materielFamille);                             
+        //$qb->orderBy('i.dateEdit','DESC')->addOrderBy('i.partnumber','DESC');
+        //echo $dql = $qb->getDql();
+        $result = $qb->getQuery()->getResult();
+        return $result;
+    }
 }

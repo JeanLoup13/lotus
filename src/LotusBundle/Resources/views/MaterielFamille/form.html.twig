@@ -1,0 +1,33 @@
+<div style="padding:36px; background-color:#EEE;">
+{{ form_start(form, {'attr': {'class' : 'form-horizontal'}}) }}
+{{ form_errors(form) }}
+    <div class="form-group">
+        {{ form_label(
+            form.title,
+            'Désignation',
+            {'label_attr':{'class':'col-sm-1 control-label'}}
+        ) }}
+        <div class="col-sm-5">
+            {{form_errors(form.title)}}
+            {{form_widget(form.title, {'attr':{'class':'form-control'}})}}
+        </div>
+        {{ form_label(
+            form.parent,
+            'Parent',
+            {'label_attr':{'class':'col-sm-1 control-label'}}
+        ) }}
+        <div class="col-sm-5">
+            {{form_errors(form.parent)}}
+            {{form_widget(form.parent)}}
+        </div>
+    </div>
+{# Tous les champs cachés de type hidden #}
+    <hr>
+    {{ form_rest(form) }}
+</div>
+<nav>
+    <ul class="pager">
+        <li><a href="{{path('lotus_materielfamille_add')}}">Ajouter une nouvelle famille de matériel</a></li>
+        <li><a href="{{path('lotus_materielfamille_list')}}">Sommaire</a></li>
+    </ul>
+</nav>
